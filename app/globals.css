@@ -88,3 +88,21 @@ html {
     z-index: 50;
   }
 }
+
+/* 타이포그래피 */
+h2 {
+  @apply text-3xl font-light tracking-wide;
+}
+
+.section-title {
+  @apply text-3xl tracking-wider text-center mb-8 font-light;
+}
+
+/* 섹션 공통 스타일 */
+.content-section {
+  @apply py-20 px-6;
+}
+
+.content-section.alt {
+  @apply bg-[#F8F8F8] -mx-6;
+}

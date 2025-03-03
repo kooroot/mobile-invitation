@@ -89,17 +89,17 @@ export default function Page() {
       <main className="relative w-full min-h-screen bg-[#F5F5F5]">
         {/* 모바일에서는 전체 화면, 데스크탑에서는 중앙 정렬된 카드 형태 */}
         <div className="mx-auto max-w-[430px] min-h-screen bg-white md:min-h-[calc(100vh-6rem)] md:my-12 md:shadow-2xl md:rounded-[2rem] overflow-hidden relative">
-          {/* 상단 이미지 섹션 - 전체 화면 높이로 설정 */}
-          <div className="relative h-[100vh] md:h-auto">
+          {/* 상단 이미지 섹션 */}
+          <div className="relative h-[80vh] md:h-[60vh]">
             <img
               src="/images/j.png"
               alt="cover_image"
               className="w-full h-full object-cover"
             />
             {/* 이미지 위에 오버레이와 텍스트 */}
-            <div className="absolute inset-0 bg-black/30 flex flex-col justify-end pb-20 px-6 text-white">
+            <div className="absolute inset-0 bg-black/30 flex flex-col justify-end pb-16 px-6 text-white">
               <h1 className="text-center animate-fade-in">
-                <div className="text-2xl font-light mb-4">구민재 · 손유나</div>
+                <div className="text-3xl font-light mb-6">구민재 · 손유나</div>
                 <div className="text-lg font-light">
                   2025. 11. 29. SAT PM 3:40
                 </div>
@@ -111,10 +111,10 @@ export default function Page() {
           </div>
 
           {/* 콘텐츠 섹션 */}
-          <div className="px-6 py-16 space-y-16">
+          <div className="space-y-20">
             {/* 인사말 */}
-            <section className="text-center space-y-6">
-              <h2 className="text-2xl">결혼합니다</h2>
+            <section className="px-6 pt-20 text-center">
+              <h2 className="text-2xl mb-8">결혼합니다</h2>
               <p className="text-gray-600 leading-relaxed">
                 서로를 비추는 빛이 되어<br/>
                 같은 곳을 바라보며 걸어가겠습니다.<br/>
@@ -125,25 +125,12 @@ export default function Page() {
               </p>
             </section>
 
-            {/* =============================
-                2) 안내 메시지 섹션
-               ============================= */}
-            <div className="px-4 py-8 text-center">
-              <strong className="block text-lg">결혼식에 초대합니다</strong>
-              <p className="mt-4 leading-7">
-                안내문
-              </p>
-            </div>
-
-            {/* =============================
-                3) 예식 날짜 / 달력 / 디데이 등
-               ============================= */}
-            <section className="bg-[#F8F8F8] -mx-6 py-16 px-6">
-              <h2 className="text-4xl tracking-wider opacity-90 text-center">
+            {/* WEDDING DAY 섹션 */}
+            <section className="bg-[#F8F8F8] py-20 px-6 -mx-6">
+              <h2 className="text-3xl tracking-wider text-center mb-8">
                 WEDDING DAY
               </h2>
-              <p className="mt-4 text-pretty">2025년 11월 29일 토요일 | 오후 3시 40분</p>
-              {/* 달력, D-Day, Countdown 등 필요시 추가 */}
+              <p className="text-center">2025년 11월 29일 토요일 | 오후 3시 40분</p>
             </section>
 
             {/* =============================
@@ -222,34 +209,32 @@ export default function Page() {
             {/* =============================
                 6) 갤러리 섹션 (샘플)
                ============================= */}
-            <section className="bg-white py-10 px-4">
-              <h2 className="text-4xl tracking-wider opacity-90">
+            <section className="py-20 px-6">
+              <h2 className="text-3xl tracking-wider text-center mb-8">
                 GALLERY
               </h2>
-              <div className="grid grid-cols-3 gap-[1.5px] mt-6">
-                {/* 실제 이미지 목록 반복 */}
-                <div className="aspect-square overflow-hidden">
+              <div className="grid grid-cols-3 gap-2">
+                <div className="aspect-square overflow-hidden rounded-lg">
                   <img
                     src="/images/j.png"
                     alt="gallery-1"
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden rounded-lg">
                   <img
                     src="/images/j.png"
                     alt="gallery-2"
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden rounded-lg">
                   <img
                     src="/images/j.png"
                     alt="gallery-3"
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                {/* ... */}
               </div>
             </section>
 
@@ -280,8 +265,8 @@ export default function Page() {
           </div>
 
           {/* 하단 고정 버튼 */}
-          <div className="fixed bottom-0 left-0 right-0 md:relative md:mt-8">
-            <div className="max-w-[430px] mx-auto bg-white py-4 px-6 space-y-3 border-t md:border-none">
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-white border-t md:relative md:border-none md:mt-8">
+            <div className="max-w-[430px] mx-auto py-4 px-6 space-y-3">
               <button 
                 onClick={shareKakao}
                 className="w-full h-12 rounded-xl bg-[#FEE500] text-[#392020] flex items-center justify-center gap-2 font-medium hover:bg-[#FEE500]/90 transition-colors"
