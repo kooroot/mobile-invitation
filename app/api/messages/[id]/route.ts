@@ -2,17 +2,23 @@ import { NextRequest, NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
 
+type Props = {
+  params: {
+    id: string
+  }
+}
+
 // DELETE: 메시지 삭제
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  props: Props
 ) {
   try {
     const client = await clientPromise
     const db = client.db("wedding")
     
     const { password } = await request.json()
-    const { id } = context.params
+    const { id } = props.params
     
     // 비밀번호 확인
     const message = await db.collection("messages").findOne({
