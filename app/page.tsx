@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 // 메시지 타입 정의
 interface Message {
-  id: number;
+  _id: string;
   name: string;
   content: string;
   password: string;
@@ -92,37 +92,77 @@ export default function Page() {
     initKakao();
   };
 
-  // 메시지 작성 폼 제출
-  const handleSubmitMessage = (e: React.FormEvent) => {
-    e.preventDefault();
+  // 메시지 목록 불러오기
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch('/api/messages')
+      const data = await response.json()
+      setMessages(data)
+    } catch (error) {
+      console.error('Failed to fetch messages:', error)
+    }
+  }
+
+  // 컴포넌트 마운트 시 메시지 목록 불러오기
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
+  // 메시지 작성
+  const handleSubmitMessage = async (e: React.FormEvent) => {
+    e.preventDefault()
     if (!newMessage.name || !newMessage.content || !newMessage.password) {
-      alert('모든 항목을 입력해주세요.');
-      return;
+      alert('모든 항목을 입력해주세요.')
+      return
     }
 
-    const message: Message = {
-      id: Date.now(),
-      ...newMessage,
-      createdAt: new Date().toLocaleDateString()
-    };
+    try {
+      const response = await fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newMessage),
+      })
 
-    setMessages(prev => [message, ...prev]);
-    setNewMessage({ name: '', content: '', password: '' });
-    setShowMessageForm(false);
-  };
+      if (!response.ok) throw new Error('Failed to create message')
+
+      setNewMessage({ name: '', content: '', password: '' })
+      setShowMessageForm(false)
+      fetchMessages() // 메시지 목록 새로고침
+    } catch (error) {
+      console.error('Error creating message:', error)
+      alert('메시지 작성에 실패했습니다.')
+    }
+  }
 
   // 메시지 삭제
-  const handleDeleteMessage = (id: number, password: string) => {
-    const messageToDelete = messages.find(m => m.id === id);
-    if (!messageToDelete) return;
+  const handleDeleteMessage = async (id: string, password: string) => {
+    const inputPassword = prompt('비밀번호를 입력해주세요:')
+    if (!inputPassword) return
 
-    const inputPassword = prompt('비밀번호를 입력해주세요:');
-    if (inputPassword === messageToDelete.password) {
-      setMessages(prev => prev.filter(m => m.id !== id));
-    } else {
-      alert('비밀번호가 일치하지 않습니다.');
+    try {
+      const response = await fetch(`/api/messages/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password: inputPassword }),
+      })
+
+      if (response.status === 403) {
+        alert('비밀번호가 일치하지 않습니다.')
+        return
+      }
+
+      if (!response.ok) throw new Error('Failed to delete message')
+
+      fetchMessages() // 메시지 목록 새로고침
+    } catch (error) {
+      console.error('Error deleting message:', error)
+      alert('메시지 삭제에 실패했습니다.')
     }
-  };
+  }
 
   return (
     <>
@@ -307,9 +347,9 @@ export default function Page() {
               {/* 메시지 목록 */}
               <div className="mt-8 space-y-4">
                 {messages.map(message => (
-                  <div key={message.id} className="border rounded-lg p-4 bg-white relative">
+                  <div key={message._id} className="border rounded-lg p-4 bg-white relative">
                     <button
-                      onClick={() => handleDeleteMessage(message.id, message.password)}
+                      onClick={() => handleDeleteMessage(message._id, message.password)}
                       className="absolute top-4 right-4 text-gray-400 text-sm"
                     >
                       삭제
