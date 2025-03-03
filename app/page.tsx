@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import Image from 'next/image';
 
+// 메시지 타입 정의
+interface Message {
+  id: number;
+  name: string;
+  content: string;
+  password: string;
+  createdAt: string;
+}
+
 export default function Page() {
+  // 메시지 상태 관리
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState({ name: '', content: '', password: '' });
+  const [showMessageForm, setShowMessageForm] = useState(false);
+
   // 카카오맵 열기
   function openKakaoMap() {
     window.open(
@@ -76,6 +90,38 @@ export default function Page() {
   // Script 로드 완료 후 실행될 핸들러
   const handleKakaoLoad = () => {
     initKakao();
+  };
+
+  // 메시지 작성 폼 제출
+  const handleSubmitMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessage.name || !newMessage.content || !newMessage.password) {
+      alert('모든 항목을 입력해주세요.');
+      return;
+    }
+
+    const message: Message = {
+      id: Date.now(),
+      ...newMessage,
+      createdAt: new Date().toLocaleDateString()
+    };
+
+    setMessages(prev => [message, ...prev]);
+    setNewMessage({ name: '', content: '', password: '' });
+    setShowMessageForm(false);
+  };
+
+  // 메시지 삭제
+  const handleDeleteMessage = (id: number, password: string) => {
+    const messageToDelete = messages.find(m => m.id === id);
+    if (!messageToDelete) return;
+
+    const inputPassword = prompt('비밀번호를 입력해주세요:');
+    if (inputPassword === messageToDelete.password) {
+      setMessages(prev => prev.filter(m => m.id !== id));
+    } else {
+      alert('비밀번호가 일치하지 않습니다.');
+    }
   };
 
   return (
@@ -257,19 +303,95 @@ export default function Page() {
               <p className="text-center mt-4">
                 신랑 신부에게 축복의 마음을 전해주세요!
               </p>
-              {/* 방명록 목록 (예시) */}
+              
+              {/* 메시지 목록 */}
               <div className="mt-8 space-y-4">
-                <div className="border rounded p-4 bg-white relative">
-                  <p className="mb-3 break-all">
-                  </p>
-                  <p className="text-sm text-gray-500">
-                  </p>
-                </div>
-                {/* ... 더 많은 메시지 ... */}
+                {messages.map(message => (
+                  <div key={message.id} className="border rounded-lg p-4 bg-white relative">
+                    <button
+                      onClick={() => handleDeleteMessage(message.id, message.password)}
+                      className="absolute top-4 right-4 text-gray-400 text-sm"
+                    >
+                      삭제
+                    </button>
+                    <p className="font-medium mb-2">{message.name}</p>
+                    <p className="text-gray-600 mb-3 break-all">{message.content}</p>
+                    <p className="text-sm text-gray-400">{message.createdAt}</p>
+                  </div>
+                ))}
               </div>
-              <button className="w-full bg-[#AFC18B] text-white h-12 mt-8 rounded-lg">
+
+              {/* 메시지 작성 버튼 */}
+              <button 
+                onClick={() => setShowMessageForm(true)}
+                className="w-full bg-[#AFC18B] text-white h-12 mt-8 rounded-lg hover:bg-[#9BAF77] transition-colors"
+              >
                 메시지 남기기
               </button>
+
+              {/* 메시지 작성 모달 */}
+              {showMessageForm && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                  <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                    <h3 className="text-xl font-medium mb-4">축하 메시지 작성</h3>
+                    <form onSubmit={handleSubmitMessage} className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          이름
+                        </label>
+                        <input
+                          type="text"
+                          value={newMessage.name}
+                          onChange={e => setNewMessage(prev => ({ ...prev, name: e.target.value }))}
+                          className="w-full border rounded-lg p-2"
+                          maxLength={10}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          메시지
+                        </label>
+                        <textarea
+                          value={newMessage.content}
+                          onChange={e => setNewMessage(prev => ({ ...prev, content: e.target.value }))}
+                          className="w-full border rounded-lg p-2 h-32"
+                          maxLength={200}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          비밀번호
+                        </label>
+                        <input
+                          type="password"
+                          value={newMessage.password}
+                          onChange={e => setNewMessage(prev => ({ ...prev, password: e.target.value }))}
+                          className="w-full border rounded-lg p-2"
+                          maxLength={4}
+                          required
+                        />
+                      </div>
+                      <div className="flex gap-2 mt-6">
+                        <button
+                          type="button"
+                          onClick={() => setShowMessageForm(false)}
+                          className="flex-1 h-12 rounded-lg bg-gray-200 text-gray-600"
+                        >
+                          취소
+                        </button>
+                        <button
+                          type="submit"
+                          className="flex-1 h-12 rounded-lg bg-[#AFC18B] text-white"
+                        >
+                          작성완료
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
             </section>
           </div>
 
