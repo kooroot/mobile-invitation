@@ -93,7 +93,7 @@ export default function Page() {
           {/* 상단 이미지 섹션 */}
           <div className="relative h-[80vh] md:h-[60vh]">
             <Image
-              src="/images/j.png"
+              src="https://raw.githubusercontent.com/kooroot/mobile-invitation/main/public/images/j.jpg"
               alt="Wedding Cover Image"
               fill
               priority
@@ -219,7 +219,7 @@ export default function Page() {
               <div className="grid grid-cols-3 gap-2">
                 <div className="aspect-square overflow-hidden rounded-lg relative">
                   <Image
-                    src="/images/gallery1.jpg"
+                    src="https://raw.githubusercontent.com/kooroot/mobile-invitation/main/public/images/j.jpg"
                     alt="gallery-1"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-300"
@@ -228,7 +228,7 @@ export default function Page() {
                 </div>
                 <div className="aspect-square overflow-hidden rounded-lg relative">
                   <Image
-                    src="/images/gallery2.jpg"
+                    src="https://raw.githubusercontent.com/kooroot/mobile-invitation/main/public/images/j.jpg"
                     alt="gallery-2"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-300"
@@ -237,7 +237,7 @@ export default function Page() {
                 </div>
                 <div className="aspect-square overflow-hidden rounded-lg relative">
                   <Image
-                    src="/images/gallery3.jpg"
+                    src="https://raw.githubusercontent.com/kooroot/mobile-invitation/main/public/images/j.jpg"
                     alt="gallery-3"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-300"
