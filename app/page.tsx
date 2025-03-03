@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
+import Image from 'next/image';
 
 export default function Page() {
   // 카카오맵 열기
@@ -91,13 +92,15 @@ export default function Page() {
         <div className="mx-auto max-w-[430px] min-h-screen bg-white md:min-h-[calc(100vh-6rem)] md:my-12 md:shadow-2xl md:rounded-[2rem] overflow-hidden relative">
           {/* 상단 이미지 섹션 */}
           <div className="relative h-[80vh] md:h-[60vh]">
-            <img
+            <Image
               src="/images/j.png"
-              alt="cover_image"
-              className="w-full h-full object-cover"
+              alt="Wedding Cover Image"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 430px) 100vw, 430px"
             />
-            {/* 이미지 위에 오버레이와 텍스트 */}
-            <div className="absolute inset-0 bg-black/30 flex flex-col justify-end pb-16 px-6 text-white">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex flex-col justify-end pb-16 px-6 text-white">
               <h1 className="text-center animate-fade-in">
                 <div className="text-3xl font-light mb-6">구민재 · 손유나</div>
                 <div className="text-lg font-light">
@@ -214,25 +217,31 @@ export default function Page() {
                 GALLERY
               </h2>
               <div className="grid grid-cols-3 gap-2">
-                <div className="aspect-square overflow-hidden rounded-lg">
-                  <img
-                    src="/images/j.png"
+                <div className="aspect-square overflow-hidden rounded-lg relative">
+                  <Image
+                    src="/images/gallery1.jpg"
                     alt="gallery-1"
-                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 430px) 33vw, 143px"
                   />
                 </div>
-                <div className="aspect-square overflow-hidden rounded-lg">
-                  <img
-                    src="/images/j.png"
+                <div className="aspect-square overflow-hidden rounded-lg relative">
+                  <Image
+                    src="/images/gallery2.jpg"
                     alt="gallery-2"
-                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 430px) 33vw, 143px"
                   />
                 </div>
-                <div className="aspect-square overflow-hidden rounded-lg">
-                  <img
-                    src="/images/j.png"
+                <div className="aspect-square overflow-hidden rounded-lg relative">
+                  <Image
+                    src="/images/gallery3.jpg"
                     alt="gallery-3"
-                    className="object-cover w-full h-full hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 430px) 33vw, 143px"
                   />
                 </div>
               </div>
